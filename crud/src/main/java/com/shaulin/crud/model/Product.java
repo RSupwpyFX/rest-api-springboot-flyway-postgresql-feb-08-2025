@@ -1,14 +1,13 @@
 package com.shaulin.crud.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-@Entity(name = "prodcut")
-@Table(name = "prodcut")
+@Entity(name = "product")
+@Table(name = "product")
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private Long price;
