@@ -5,8 +5,7 @@ Certifique-se de ter o IntelliJ IDEA instalado em sua máquina. O IntelliJ possu
 - **Community (Gratuita):** Com funcionalidades básicas suficientes para muitos projetos.  
 - **Ultimate (Paga):** Inclui recursos avançados, especialmente úteis para projetos empresariais.  
 
-💡 **Dica para Estudantes:**  
-Se você estiver cursando faculdade, pode solicitar gratuitamente uma licença educacional para a versão Ultimate por meio do [JetBrains Student Program](https://www.jetbrains.com/community/education/#students). Com essa licença, você terá acesso a todas as ferramentas da JetBrains sem custo enquanto for estudante. Basta criar uma conta com o e-mail institucional ou enviar um comprovante de matrícula.  
+##### 💡 Importante: Se você estiver cursando faculdade, pode solicitar gratuitamente uma licença educacional para a versão Ultimate por meio do [JetBrains Student Program](https://www.jetbrains.com/community/education/#students). Com essa licença, você terá acesso a todas as ferramentas da JetBrains sem custo enquanto for estudante. Basta criar uma conta com o e-mail institucional ou enviar um comprovante de matrícula.  
 
 ---
 
@@ -242,10 +241,6 @@ A convenção para nomear os arquivos de migração no Flyway é:
 - **Organize os scripts:** Mantenha cada script de alteração de banco em arquivos separados com uma versão clara.
 - **Versão sequencial:** A versão (```V1```, ```V2```, etc.) deve ser incrementada conforme você adiciona novas migrações.
 - **Evite alterar scripts já executados:** Crie novos scripts para modificações adicionais.
-
-#### 💡 **Conclusão**
-
-O Flyway ajuda a garantir que todos os ambientes (desenvolvimento, homologação e produção) estejam sincronizados com a mesma estrutura de banco de dados, evitando problemas causados por inconsistências.
 
 <br>
 
