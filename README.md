@@ -1,51 +1,47 @@
-# Projeto CRUD com Spring Boot | API REST com PostgreSQL e Flyway
+## 🚀 CONFIGURAÇÃO DO PROJETO SPRING BOOT COM INTELLIJ IDEA 
 
-## _Repositório com Conteúdos de CRUD em Spring Boot_
+#### 🛠️ Passo 1: Instalar o IntelliJ IDEA  
+Certifique-se de ter o IntelliJ IDEA instalado em sua máquina. O IntelliJ possui duas versões:  
+- **Community (Gratuita):** Com funcionalidades básicas suficientes para muitos projetos.  
+- **Ultimate (Paga):** Inclui recursos avançados, especialmente úteis para projetos empresariais.  
 
-> _Projeto prático desenvolvido durante estudos de back-end com Spring Boot._
-
-> - **_SPRING BOOT – Framework Java para construção de APIs REST._**
-> - **_POSTGRESQL – Banco de Dados Relacional._**
-> - **_FLYWAY – Gerenciamento de Migrações de Banco de Dados._**
-
-<br>
-
-## ![](icon/icon_conceito.png) Sobre o Projeto
-
-Este projeto foi desenvolvido com o objetivo de demonstrar a criação de uma API RESTful utilizando Spring Boot. Ele integra um banco de dados PostgreSQL para armazenamento dos dados e emprega o Flyway para gerenciar as migrações do banco. O projeto abrange as operações CRUD, demonstrando boas práticas na separação de responsabilidades e no tratamento adequado de exceções, servindo como um guia prático para desenvolvedores que pretendem criar aplicações robustas em Java.
-
-<br>
+💡 **Dica para Estudantes:**  
+Se você estiver cursando faculdade, pode solicitar gratuitamente uma licença educacional para a versão Ultimate por meio do [JetBrains Student Program](https://www.jetbrains.com/community/education/#students). Com essa licença, você terá acesso a todas as ferramentas da JetBrains sem custo enquanto for estudante. Basta criar uma conta com o e-mail institucional ou enviar um comprovante de matrícula.  
 
 ---
 
-## ![](icon/instrucoes.png) Instruções para Executar o Projeto
+#### 🧑‍💻 Passo 2: Configurar o Projeto no Spring Initializr  
+1. Acesse o [Spring Initializr](https://start.spring.io/).  
+2. Configure as seguintes opções:  
+   - **Project:** Maven  
+   - **Language:** Java  
+   - **Spring Boot Version:** Mantenha a versão padrão (geralmente a mais recente).  
 
-1. Faça uma cópia do projeto para sua máquina:
-    - [Git Clone:]() Clone o repositório para o seu computador.
-    - [Download:]() Ou baixe o projeto diretamente da página.
+3. No campo **Project Metadata**, personalize conforme necessário:  
+   - **Group:** (ex: com.seuprojeto)  
+   - **Artifact:** (ex: meu-aplicativo)  
+   - **Name:** (ex: MeuAplicativo)  
+   - **Description:** Uma breve descrição do projeto  
+   - **Package Name:** Deixe no padrão com base no Group e Artifact escolhidos  
 
-2. Acesse [Spring Initializr](https://start.spring.io/) e configure o projeto da seguinte maneira e baixe:
-![start spring io_](https://github.com/user-attachments/assets/99bf40df-7154-493b-b081-ecf98af13d07)
+4. **Packaging:** Selecione **JAR**  
+5. **Java Version:** Deixe configurada com a versão mais recente compatível com seu ambiente.  
 
-2. Abra o arquivo baixado na sua IDE de preferência (como IntelliJ IDEA ou Eclipse).
+---
 
-4. Execute o projeto e acesse a API em http://localhost:8080 e utilize ferramentas como o Postman para testar as operações CRUD.
-
-<br>
+#### 📦 Passo 3: Adicionar Dependências  
+Inclua as seguintes dependências no projeto:  
+- **Spring Web:** Para criação de APIs RESTful  
+- **Spring Data JPA:** Para persistência de dados  
+- **PostgreSQL Driver:** Para conexão com banco de dados PostgreSQL  
+- **Flyway Migration:** Para controle de versionamento do banco de dados  
 
 ---
 
-## ![](icon/configuracoes.png) Tecnologias Utilizadas
+#### 📂 Passo 4: Baixar o Projeto  
+1. Clique em **Generate** para baixar o projeto.  
+2. Extraia o arquivo baixado e abra a pasta resultante no IntelliJ IDEA.  
 
-- **Spring Boot – Framework para criação de APIs REST em Java.**
-- **PostgreSQL – Banco de dados relacional para armazenamento persistente.**
-- **Flyway – Ferramenta para versionamento e migração de banco de dados.**
-- **Postman – Ferramenta para teste e validação de APIs.**
-- **Maven – Gerenciador de dependências e automação de build.**
-
-<br>
-
----
 
 ## 📚 _References_
 
