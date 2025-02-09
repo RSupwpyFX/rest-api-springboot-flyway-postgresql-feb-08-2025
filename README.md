@@ -75,24 +75,22 @@ spring.datasource.password=<SUA_SENHA>
 
 <br>
 
-# 🗂️ ESTRUTURA DO PROJETO E ORDEM DE CRIAÇÃO
+## 🗂️ ESTRUTURA DO PROJETO E ORDEM DE CRIAÇÃO
 
 A seguir está a ordem recomendada para a criação das camadas principais do projeto:
 
----
-
-## **1. Model (Entidades)**  
-### **Motivo:**  
+#### **1. Model (Entidades)**  
+#### **Motivo:**  
 O Model representa a estrutura dos dados no sistema. É a base para definir como o banco de dados e as camadas superiores vão se comportar.
 
-### **O que fazer:**  
+#### **O que fazer:**  
 - Defina as classes que representam as tabelas do banco de dados.  
 - Inclua as anotações do JPA (`@Entity`, `@Table`, `@Id`, etc.).  
 
-### **Exemplo:**  
+#### **Exemplo:**  
 ```java
-@Entity
-@Table(name = "products")
+@Entity(name = "product")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,37 +102,152 @@ public class Product {
 }
 ```
 
-## **2. DTOs (Data Transfer Objects)**  
-### **Motivo:**  
+---
+
+#### **2. DTOs (Data Transfer Objects)**  
+#### **Motivo:**  
 Facilitar a transferência de dados entre a camada de controle e a lógica de negócio, evitando expor diretamente a entidade do banco de dados.
 
-### **O que fazer:**  
+#### **O que fazer:**  
 - Crie classes simples com os atributos necessários para requests e responses.
 - Evite incluir lógica nas classes DTOs.
 
-### **Exemplo:**  
+#### **Exemplo:**  
 ```java
-public class ProductDTO {
-    private String name;
-    private Double price;
-
-    // Construtores, Getters e Setters
-}
+public record ProductDTO(String name, Long price) {}
 ```
 
-## **3. Repositories**  
-### **Motivo:**  
+---
+
+#### **3. Repositories**  
+#### **Motivo:**  
 São responsáveis pelo acesso ao banco de dados. Dependem diretamente das entidades definidas no **Model**.
 
-### **O que fazer:**  
+#### **O que fazer:**  
 - Crie interfaces que estendem ```JpaRepository``` para operações padrão de persistência.
 
-### **Exemplo:**  
+#### **Exemplo:**  
 ```java
-@Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {}
+```
+
+---
+
+#### **4. Controller**  
+#### **Motivo:**  
+A Controller gerencia as requisições HTTP e direciona para os serviços necessários.
+
+#### **O que fazer:**  
+- Crie endpoints RESTful que recebam os dados, validem e deleguem as operações aos serviços.
+
+#### **Exemplo:**  
+```java
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+
+    @Autowired
+    ProductRepository repository;
+
+    @GetMapping
+    public ResponseEntity getAllProducts() {
+        List<Product> listProducts = repository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(listProducts);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getProductById(@PathVariable(value = "id") Integer id) {
+        Optional<Product> product = repository.findById(id);
+        if (product.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUCT NOT FOUND");
+        }
+        return ResponseEntity.status(HttpStatus.FOUND).body(product.get());
+    }
+
+    @PostMapping
+    public ResponseEntity insertProduct(@RequestBody ProductDTO productDTO) {
+        var product = new Product();
+        BeanUtils.copyProperties(productDTO, product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delteProduct(@PathVariable(value = "id") Integer id) {
+        Optional<Product> product = repository.findById(id);
+        if (product.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUCT NOT FOUND");
+        }
+        repository.delete(product.get());
+        return ResponseEntity.status(HttpStatus.OK).body("PRODUCT DELETED");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateProduct(@PathVariable(value = "id") Integer id, @RequestBody ProductDTO productDTO) {
+        Optional<Product> product = repository.findById(id);
+        if (product.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PRODUCT NOT FOUND");
+        }
+
+        var productModel = product.get();
+        BeanUtils.copyProperties(productDTO, productModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body(repository.save(productModel));
+    }
 }
 ```
+
+---
+
+#### **📋 Resumo da Ordem:**
+
+1. Model (Entidades)
+2. DTOs (Data Transfer Objects)
+3. Repositories
+4. Controller
+
+<br>
+
+## 🛠️ MIGRAÇÕES DE BANCO DE DADOS COM FLYWAY
+
+#### 🚀 **O que é Flyway?**
+O Flyway é uma ferramenta que permite gerenciar a evolução do banco de dados de forma controlada, através de scripts versionados que são executados automaticamente quando o projeto inicia.  
+
+#### 📄 **Exemplo de Script de Migração**
+
+Aqui está um exemplo simples de um script para criar a tabela `product`:  
+
+**Arquivo:** `V1__create_table_product.sql`
+
+```sql
+CREATE TABLE product (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price BIGINT NOT NULL
+);
+```
+
+#### 💡 **Nomeação dos Arquivos:**
+
+A convenção para nomear os arquivos de migração no Flyway é:
+- ```V<versão>__<descrição>.sql```
+- ```Exemplo: V1__create_table_product.sql```
+
+#### 📝 **Como Funciona?**
+
+- Quando o projeto é executado, o Flyway verifica os scripts de migração na pasta padrão (```src/main/resources/db/migration```).
+- Ele aplica os scripts que ainda não foram executados, mantendo um histórico de migrações.
+
+#### 🔧 **Dicas**
+
+- **Organize os scripts:** Mantenha cada script de alteração de banco em arquivos separados com uma versão clara.
+- **Versão sequencial:** A versão (```V1```, ```V2```, etc.) deve ser incrementada conforme você adiciona novas migrações.
+- **Evite alterar scripts já executados:** Crie novos scripts para modificações adicionais.
+
+#### 💡 **Conclusão**
+
+O Flyway ajuda a garantir que todos os ambientes (desenvolvimento, homologação e produção) estejam sincronizados com a mesma estrutura de banco de dados, evitando problemas causados por inconsistências.
+
+<br>
 
 ## 📚 _References_
 
