@@ -42,6 +42,66 @@ Inclua as seguintes dependências no projeto:
 1. Clique em **Generate** para baixar o projeto.  
 2. Extraia o arquivo baixado e abra a pasta resultante no IntelliJ IDEA.  
 
+<br>
+
+## ⚙️ CONFIGURAÇÃO DO `application.properties`
+
+A primeira configuração importante do projeto é o arquivo `application.properties`, geralmente localizado em:  
+`src > main > resources`
+
+As propriedades deste arquivo variam de acordo com o banco de dados que você está utilizando. Abaixo está uma configuração básica para o **PostgreSQL**:
+
+```properties
+# ===============================
+# DATA SOURCE CONFIGURATION
+# ===============================
+spring.datasource.url=jdbc:postgresql://<HOST>:<PORT>/<DATABASE_NAME>
+spring.datasource.username=<SEU_USUARIO>
+spring.datasource.password=<SUA_SENHA>
+```
+
+#### 🔧 Explicação das Propriedades
+
+**spring.datasource.url**
+> Define a URL de conexão com o banco de dados.
+
+**spring.datasource.username**
+> Define o nome de usuário para acessar o banco de dados.
+
+**spring.datasource.password**
+> Define a senha correspondente ao usuário do banco.
+
+##### 💡 Importante: Certifique-se de alterar os placeholders (HOST, PORT, DATABASE_NAME, SEU_USUARIO, SUA_SENHA) para os valores corretos do seu ambiente antes de rodar o projeto.
+
+<br>
+
+# 🗂️ ESTRUTURA DO PROJETO E ORDEM DE CRIAÇÃO
+
+A seguir está a ordem recomendada para a criação das camadas principais do projeto:
+
+---
+
+## **1. Model (Entidades)**  
+### **Motivo:**  
+O Model representa a estrutura dos dados no sistema. É a base para definir como o banco de dados e as camadas superiores vão se comportar.
+
+### **O que fazer:**  
+- Defina as classes que representam as tabelas do banco de dados.  
+- Inclua as anotações do JPA (`@Entity`, `@Table`, `@Id`, etc.).  
+
+### **Exemplo:**  
+```java
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private Double price;
+
+    // Getters e Setters
+}
 
 ## 📚 _References_
 
