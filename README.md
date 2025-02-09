@@ -102,6 +102,39 @@ public class Product {
 
     // Getters e Setters
 }
+```
+
+## **2. DTOs (Data Transfer Objects)**  
+### **Motivo:**  
+Facilitar a transferência de dados entre a camada de controle e a lógica de negócio, evitando expor diretamente a entidade do banco de dados.
+
+### **O que fazer:**  
+- Crie classes simples com os atributos necessários para requests e responses.
+- Evite incluir lógica nas classes DTOs.
+
+### **Exemplo:**  
+```java
+public class ProductDTO {
+    private String name;
+    private Double price;
+
+    // Construtores, Getters e Setters
+}
+```
+
+## **3. Repositories**  
+### **Motivo:**  
+São responsáveis pelo acesso ao banco de dados. Dependem diretamente das entidades definidas no **Model**.
+
+### **O que fazer:**  
+- Crie interfaces que estendem ```JpaRepository``` para operações padrão de persistência.
+
+### **Exemplo:**  
+```java
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+}
+```
 
 ## 📚 _References_
 
